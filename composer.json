@@ -61,10 +61,7 @@
         "laravel": {
             "providers": [
                 "TSpaceship\\FilamentBackend\\FilamentBackendServiceProvider"
-            ],
-            "aliases": {
-                "FilamentBackend": "TSpaceship\\FilamentBackend\\Facades\\FilamentBackend"
-            }
+            ]
         }
     },
     "minimum-stability": "dev",

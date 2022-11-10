@@ -18,8 +18,8 @@ class FilamentBackendServiceProvider extends PackageServiceProvider
         $package
             ->name('filament-backend')
             ->hasConfigFile()
-            ->hasViews()
-            ->hasMigration('create_filament-backend_table')
+            //->hasViews()
+            //->hasMigration('create_filament-backend_table')
             ->hasCommand(FilamentBackendCommand::class);
     }
 }
