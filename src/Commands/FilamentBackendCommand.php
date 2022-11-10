@@ -1,12 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton\Commands;
+namespace TSpaceship\FilamentBackend\Commands;
 
 use Illuminate\Console\Command;
 
-class SkeletonCommand extends Command
+class FilamentBackendCommand extends Command
 {
-    public $signature = 'skeleton';
+    public $signature = 'filament-backend';
 
     public $description = 'My command';
 
