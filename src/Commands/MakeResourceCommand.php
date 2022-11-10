@@ -2,11 +2,10 @@
 
 namespace TSpaceship\FilamentBackend\Commands;
 
-use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Str;
 use Doctrine\DBAL\Types;
 use Filament\Forms;
 use Filament\Tables;
+use Illuminate\Support\Str;
 use TSpaceship\FilamentBackend\Forms\Components\TranslatableField;
 
 class MakeResourceCommand extends \Filament\Commands\MakeResourceCommand
@@ -62,14 +61,14 @@ class MakeResourceCommand extends \Filament\Commands\MakeResourceCommand
         $editResourcePagePath = "{$resourcePagesDirectory}/{$editResourcePageClass}.php";
         $viewResourcePagePath = "{$resourcePagesDirectory}/{$viewResourcePageClass}.php";
 
-        if (!$this->option('force') && $this->checkForCollision([
-                $resourcePath,
-                $listResourcePagePath,
-                $manageResourcePagePath,
-                $createResourcePagePath,
-                $editResourcePagePath,
-                $viewResourcePagePath,
-            ])) {
+        if (! $this->option('force') && $this->checkForCollision([
+            $resourcePath,
+            $listResourcePagePath,
+            $manageResourcePagePath,
+            $createResourcePagePath,
+            $editResourcePagePath,
+            $viewResourcePagePath,
+        ])) {
             return static::INVALID;
         }
 
@@ -86,7 +85,7 @@ class MakeResourceCommand extends \Filament\Commands\MakeResourceCommand
         $pages = '';
         $pages .= '\'index\' => Pages\\'.($this->option('simple') ? $manageResourcePageClass : $listResourcePageClass).'::route(\'/\'),';
 
-        if (!$this->option('simple')) {
+        if (! $this->option('simple')) {
             $pages .= PHP_EOL."'create' => Pages\\{$createResourcePageClass}::route('/create'),";
 
             if ($this->option('view')) {
@@ -197,7 +196,7 @@ class MakeResourceCommand extends \Filament\Commands\MakeResourceCommand
                 ($modelNamespace !== '' ? $modelNamespace : 'App\Models').'\\'.$modelClass
             ) : $this->indentString('//', 4),
             'tableFilters' => $tableFilters,
-            'recordTitle' => $recordTitle
+            'recordTitle' => $recordTitle,
         ]);
 
         if ($this->option('simple')) {
@@ -265,15 +264,15 @@ class MakeResourceCommand extends \Filament\Commands\MakeResourceCommand
         $table = $this->getModelTable($model);
 
         foreach ($table->getColumns() as $column) {
-            if (!Str::of($columnName)->startsWith('_') && !Str::of($columnName)->endsWith('_')) {
+            if (! Str::of($columnName)->startsWith('_') && ! Str::of($columnName)->endsWith('_')) {
                 if (Str::of($column->getName())->exactly($columnName)) {
                     return true;
                 }
-            } elseif (Str::of($columnName)->startsWith('_') && !Str::of($columnName)->endsWith('_')) {
+            } elseif (Str::of($columnName)->startsWith('_') && ! Str::of($columnName)->endsWith('_')) {
                 if (Str::of($column->getName())->endsWith($columnName)) {
                     return true;
                 }
-            } elseif (!Str::of($columnName)->startsWith('_') && Str::of($columnName)->endsWith('_')) {
+            } elseif (! Str::of($columnName)->startsWith('_') && Str::of($columnName)->endsWith('_')) {
                 if (Str::of($column->getName())->startsWith($columnName)) {
                     return true;
                 }
@@ -283,6 +282,7 @@ class MakeResourceCommand extends \Filament\Commands\MakeResourceCommand
                 }
             }
         }
+
         return false;
     }
 
@@ -290,7 +290,7 @@ class MakeResourceCommand extends \Filament\Commands\MakeResourceCommand
     {
         $table = $this->getModelTable($model);
 
-        if (!$table) {
+        if (! $table) {
             return $this->indentString('//', 4);
         }
 
@@ -311,7 +311,7 @@ class MakeResourceCommand extends \Filament\Commands\MakeResourceCommand
                 '*_token',
                 'active',
                 'published',
-                'published_at'
+                'published_at',
             ])) {
                 continue;
             }
@@ -421,7 +421,7 @@ class MakeResourceCommand extends \Filament\Commands\MakeResourceCommand
             // Termination
             $output .= ',';
 
-            if (!(array_key_last($components) === $componentName)) {
+            if (! (array_key_last($components) === $componentName)) {
                 $output .= PHP_EOL;
             }
         }
@@ -459,7 +459,7 @@ class MakeResourceCommand extends \Filament\Commands\MakeResourceCommand
     {
         $table = $this->getModelTable($model);
 
-        if (!$table) {
+        if (! $table) {
             return $this->indentString('//', 4);
         }
 
@@ -553,7 +553,7 @@ class MakeResourceCommand extends \Filament\Commands\MakeResourceCommand
             // Termination
             $output .= ',';
 
-            if (!(array_key_last($columns) === $columnName)) {
+            if (! (array_key_last($columns) === $columnName)) {
                 $output .= PHP_EOL;
             }
         }

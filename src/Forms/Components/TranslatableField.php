@@ -9,16 +9,27 @@ use Illuminate\Support\Str;
 class TranslatableField
 {
     protected $field;
+
     protected $languages = ['en', 'ar'];
+
     protected $label;
+
     protected $type = 'TextInput';
+
     protected $requiredLanguages = [];
+
     protected $url = false;
+
     protected $dependant;
+
     protected $forceLtr;
+
     protected $columns = 2;
+
     protected $afterStateUpdated = [];
+
     protected $lazy = false;
+
     protected $isHtml = false;
 
     public function __construct($field)
@@ -34,54 +45,63 @@ class TranslatableField
     public function required()
     {
         $this->requiredLanguages = $this->languages;
+
         return $this;
     }
 
     public function type($type)
     {
         $this->type = $type;
+
         return $this;
     }
 
     public function requiredOnly(array $languages)
     {
         $this->requiredLanguages = $languages;
+
         return $this;
     }
 
     public function url()
     {
         $this->url = true;
+
         return $this;
     }
 
     public function html()
     {
         $this->isHtml = true;
+
         return $this;
     }
 
     public function forceLtr()
     {
         $this->forceLtr = true;
+
         return $this;
     }
 
     public function dependant($value)
     {
         $this->dependant = $value;
+
         return $this;
     }
 
     public function label(string $label)
     {
         $this->label = $label;
+
         return $this;
     }
 
     public function columns($columns)
     {
         $this->columns = $columns;
+
         return $this;
     }
 
@@ -97,6 +117,7 @@ class TranslatableField
     public function lazy(): static
     {
         $this->lazy = true;
+
         return $this;
     }
 
@@ -109,7 +130,7 @@ class TranslatableField
             $type = '\Filament\Forms\Components\\'.$this->type;
         }
         foreach ($this->languages as $language) {
-            if (!$this->label) {
+            if (! $this->label) {
                 $this->setLabel($this->field);
             }
             $input = $type::make($this->field.'.'.$language)
@@ -120,13 +141,12 @@ class TranslatableField
                 $input->required();
             }
 
-
             if (isset($this->afterStateUpdated[$language])) {
                 $input->afterStateUpdated($this->afterStateUpdated[$language]);
             }
 
             if ($language === 'ar') {
-                if (!$this->forceLtr) {
+                if (! $this->forceLtr) {
                     $input->extraAttributes(['dir' => 'rtl']);
                     if ($this->isHtml) {
                         $input->extraInputAttributes(['style' => 'min-height: 12rem;', 'dir' => 'rtl']);
@@ -141,8 +161,8 @@ class TranslatableField
                 $input->url();
             }
             if ($this->dependant) {
-                $input->hidden(fn(\Closure $get) => !$get($this->dependant));
-                $input->required(fn(\Closure $get) => $get($this->dependant));
+                $input->hidden(fn (\Closure $get) => ! $get($this->dependant));
+                $input->required(fn (\Closure $get) => $get($this->dependant));
             }
             if ($this->lazy) {
                 $input->lazy();
@@ -152,6 +172,7 @@ class TranslatableField
         }
         $group = Group::make()
             ->schema($schema);
+
         return $group->columns($this->columns);
     }
 
@@ -169,6 +190,7 @@ class TranslatableField
     public function afterStateUpdated($callbacks)
     {
         $this->afterStateUpdated = $callbacks;
+
         return $this;
     }
 }
