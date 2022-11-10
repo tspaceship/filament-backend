@@ -4,7 +4,7 @@ namespace TSpaceship\FilamentBackend;
 
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use TSpaceship\FilamentBackend\Commands\FilamentBackendCommand;
+use TSpaceship\FilamentBackend\Commands\MakeResourceCommand;
 
 class FilamentBackendServiceProvider extends PackageServiceProvider
 {
@@ -20,6 +20,6 @@ class FilamentBackendServiceProvider extends PackageServiceProvider
             ->hasConfigFile()
             //->hasViews()
             //->hasMigration('create_filament-backend_table')
-            ->hasCommand(FilamentBackendCommand::class);
+            ->hasCommand(MakeResourceCommand::class);
     }
 }
