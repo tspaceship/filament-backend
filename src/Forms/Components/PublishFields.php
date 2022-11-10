@@ -17,7 +17,7 @@ class PublishFields
                     ->reactive(),
                 DatePicker::make('published_at')
                     ->required()
-                    ->hidden(fn(\Closure $get) => !$get('published')),
+                    ->hidden(fn (\Closure $get) => ! $get('published')),
             ]);
     }
 
