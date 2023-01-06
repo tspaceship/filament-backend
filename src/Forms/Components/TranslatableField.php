@@ -7,7 +7,7 @@ use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
 use Closure;
 
-class TranslatableInput
+class TranslatableField
 {
     protected $field;
     protected $languages = ['en', 'ar'];
