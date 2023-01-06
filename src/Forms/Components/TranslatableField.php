@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Components;
+namespace TSpaceship\FilamentBackend\Forms\Components;
 
 use Filament\Forms\Components\Group;
 use Illuminate\Support\HtmlString;
