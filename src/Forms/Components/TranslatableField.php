@@ -160,9 +160,6 @@ class TranslatableField
                     //$input->extraInputAttributes(['style' => 'min-height: 12rem;']);
                 }
             }
-            if ($this->isHtml) {
-                $input->fileAttachmentsDirectory('images');
-            }
             if ($this->url) {
                 $input->url();
             }
