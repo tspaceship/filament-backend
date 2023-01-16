@@ -151,7 +151,7 @@ class TranslatableField
                 if (!$this->forceLtr) {
                     $input->extraAttributes(['dir' => 'rtl']);
                     if ($this->isHtml) {
-                        $input->profile('defaultRTL');
+                        //$input->profile('defaultRTL');
                         //$input->extraInputAttributes(['style' => 'min-height: 12rem;', 'dir' => 'rtl']);
                     }
                 }
