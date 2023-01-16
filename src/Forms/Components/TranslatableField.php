@@ -5,7 +5,6 @@ namespace TSpaceship\FilamentBackend\Forms\Components;
 use Filament\Forms\Components\Group;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
-use Closure;
 
 class TranslatableField
 {
@@ -152,12 +151,12 @@ class TranslatableField
                     $input->extraAttributes(['dir' => 'rtl']);
                     if ($this->isHtml) {
                         //$input->profile('defaultRTL');
-                        //$input->extraInputAttributes(['style' => 'min-height: 12rem;', 'dir' => 'rtl']);
+                        $input->extraInputAttributes(['style' => 'min-height: 12rem;', 'dir' => 'rtl']);
                     }
                 }
             } else {
                 if ($this->isHtml) {
-                    //$input->extraInputAttributes(['style' => 'min-height: 12rem;']);
+                    $input->extraInputAttributes(['style' => 'min-height: 12rem;']);
                 }
             }
             if ($this->url) {
