@@ -188,9 +188,9 @@ class TranslatableField
     public static function transLabel(string $label, string $language = 'en'): HtmlString
     {
         if ($language === 'ar') {
-            $language = 'Arabic';
+            $language = __('Arabic');
         } elseif ($language === 'en') {
-            $language = 'English';
+            $language = __('English');
         }
 
         return new HtmlString($label . ' <span class="text-xs text-gray-500">[' . $language . ']</span>');
