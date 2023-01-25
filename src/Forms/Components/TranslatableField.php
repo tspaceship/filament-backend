@@ -186,7 +186,7 @@ class TranslatableField
 
     public static function transLabel(string $label, string $language): HtmlString
     {
-        return new HtmlString(__($label) . ' <span class="text-xs text-gray-500">[' . $language . ']</span>');
+        return new HtmlString(__($label) . ' <span class="text-xs text-gray-500">[' . __($language) . ']</span>');
     }
 
     public function afterStateUpdated($callbacks)
