@@ -9,7 +9,6 @@ use Illuminate\Support\Str;
 class TranslatableField
 {
     protected $field;
-    protected $languages = ['en', 'ar'];
     protected $label;
     protected $type = 'TextInput';
     protected $requiredLanguages = [];
@@ -23,10 +22,12 @@ class TranslatableField
     protected $helperText = '';
     protected $hiddenOn = '';
     protected $hidden = '';
+    protected $languages;
 
     public function __construct($field)
     {
         $this->field = $field;
+        $this->languages = config('filament-backend.languages');
     }
 
     public static function make(string $field): static
@@ -36,7 +37,7 @@ class TranslatableField
 
     public function required()
     {
-        $this->requiredLanguages = $this->languages;
+        $this->requiredLanguages = collect($this->languages)->pluck('code')->toArray();
         return $this;
     }
 
@@ -129,36 +130,34 @@ class TranslatableField
         } else {
             $type = '\Filament\Forms\Components\\' . $this->type;
         }
+
+        usort($this->languages, function ($a, $b) {
+            return $a['code'] === app()->getLocale() ? -1 : 1;
+        });
+
         foreach ($this->languages as $language) {
             if (!$this->label) {
                 $this->setLabel($this->field);
             }
-            $input = $type::make($this->field . '.' . $language)
-                ->label(self::transLabel($this->label, $language))
+            $input = $type::make($this->field . '.' . $language['code'])
+                ->label(self::transLabel($this->label, $language['label']))
                 ->validationAttribute($this->label);
 
-            if (in_array($language, $this->requiredLanguages)) {
+            if (in_array($language['code'], $this->requiredLanguages)) {
                 $input->required();
             }
 
 
-            if (isset($this->afterStateUpdated[$language])) {
-                $input->afterStateUpdated($this->afterStateUpdated[$language]);
+            if (isset($this->afterStateUpdated[$language['code']])) {
+                $input->afterStateUpdated($this->afterStateUpdated[$language['code']]);
             }
 
-            if ($language === 'ar') {
-                if (!$this->forceLtr) {
-                    $input->extraAttributes(['dir' => 'rtl']);
-                    if ($this->isHtml) {
-                        //$input->profile('defaultRTL');
-                        $input->extraInputAttributes(['style' => 'min-height: 12rem;', 'dir' => 'rtl']);
-                    }
-                }
-            } else {
-                if ($this->isHtml) {
-                    $input->extraInputAttributes(['style' => 'min-height: 12rem;']);
-                }
+
+            $input->extraAttributes(['dir' => $this->forceLtr ? 'ltr' : $language['dir']]);
+            if ($this->isHtml) {
+                $input->extraInputAttributes(['style' => 'min-height: 12rem;', 'dir' => $this->forceLtr ? 'ltr' : $language['dir']]);
             }
+
             if ($this->url) {
                 $input->url();
             }
@@ -185,15 +184,9 @@ class TranslatableField
         return $group->columns($this->columns);
     }
 
-    public static function transLabel(string $label, string $language = 'en'): HtmlString
+    public static function transLabel(string $label, string $language): HtmlString
     {
-        if ($language === 'ar') {
-            $language = __('Arabic');
-        } elseif ($language === 'en') {
-            $language = __('English');
-        }
-
-        return new HtmlString($label . ' <span class="text-xs text-gray-500">[' . $language . ']</span>');
+        return new HtmlString(__($label) . ' <span class="text-xs text-gray-500">[' . $language . ']</span>');
     }
 
     public function afterStateUpdated($callbacks)
