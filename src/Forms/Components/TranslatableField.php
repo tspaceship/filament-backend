@@ -2,6 +2,7 @@
 
 namespace TSpaceship\FilamentBackend\Forms\Components;
 
+use Closure;
 use Filament\Forms\Components\Group;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
@@ -23,6 +24,8 @@ class TranslatableField
     protected $hiddenOn = '';
     protected $hidden = '';
     protected $languages;
+    protected $max;
+    protected $min;
 
     public function __construct($field)
     {
@@ -122,6 +125,18 @@ class TranslatableField
         return $this;
     }
 
+    public function maxLength(int|Closure $length): static
+    {
+        $this->max = $length;
+        return $this;
+    }
+
+    public function minLength(int|Closure $length): static
+    {
+        $this->min = $length;
+        return $this;
+    }
+
     public function get()
     {
         $schema = [];
@@ -177,6 +192,13 @@ class TranslatableField
             if ($this->hidden) {
                 $input->hidden($this->hidden);
             }
+            if ($this->max) {
+                $input->maxLength($this->max);
+            }
+            if ($this->min) {
+                $input->minLength($this->min);
+            }
+
             $schema[] = $input;
         }
         $group = Group::make()
