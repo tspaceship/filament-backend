@@ -156,7 +156,7 @@ class TranslatableField
             }
             $input = $type::make($this->field . '.' . $language['code'])
                 ->label(self::transLabel($this->label, $language['label']))
-                ->validationAttribute($this->label);
+                ->validationAttribute(__($this->label));
 
             if (in_array($language['code'], $this->requiredLanguages)) {
                 $input->required();
