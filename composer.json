@@ -20,7 +20,7 @@
         "doctrine/dbal": "^3.5",
         "filament/filament": "^2.0",
         "filament/spatie-laravel-media-library-plugin": "^2.0",
-        "illuminate/contracts": "^9.0",
+        "illuminate/contracts": "^9.0|^10.0",
         "spatie/laravel-package-tools": "^1.13.0"
     },
     "require-dev": {
